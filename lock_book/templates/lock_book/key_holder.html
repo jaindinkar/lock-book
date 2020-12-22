@@ -1,0 +1,177 @@
+{% extends "lock_book/layout.html" %}
+
+{% load static %}
+
+{% block title %}Key-Holder{% endblock %}
+
+{% block content %}
+	
+	<!-- Stopping elements inside button to be treated as seperate entity. -->
+	<!-- https://css-tricks.com/slightly-careful-sub-elements-clickable-things/ -->
+	<style type="text/css">
+		/*Prevents copy button issues*/
+		button > * {
+			pointer-events: none;
+		}
+		/*Sets input placeholder text italic*/
+		::-webkit-input-placeholder {
+		   font-style: italic;
+		}
+
+	</style>
+
+	<h1 class="text-center">Key Holder</h1>
+
+	<p class="text-center">Key holder helps you in saving your secure keys, so you don't have to remember them.</p>
+
+	<!-- <p class="text-center">Lock book helps you in creating secure keys and provides space for saving them, so you don't have to remember them.</p> -->
+
+	<div class="container">
+
+		{% for key in userKeys %}
+
+		    <div class="card my-2">
+
+		        <div class="card-header">
+		            <div class="row">
+		                <h5 class="col my-auto">{{ key.site_addr }}</h5>
+		                <div class='col text-right my-auto'>
+			                <i class="fa fa-eye text-muted eye-button" style="cursor: pointer;"></i>
+			                <i class="fa fa-trash text-muted ml-2 delete-button" style="cursor: pointer;"></i>
+			                <!-- This key's database unique key is hidden behind below division. -->
+			                <!-- This key is used for deleteing key on server -->
+			                <!-- position is choosed near the delete button. -->
+			                <div class="key-pk" style="display: none;">{{ key.pk }}</div>
+			            </div>
+		            </div>
+		        </div> <!-- card-header -->
+
+		        <div class="card-body">
+		            <div class="row">
+		                <div class="col-lg-4 text-muted text-left">
+		                    <div class="row">
+		                        <p class="col-sm-4 my-auto">e-mail:</p>
+
+		                        <div class="input-group col-sm-8">
+									<input type="password" class="form-control email-box" placeholder="(not provided)" aria-label="Your e-mail" aria-describedby="button-addon2" value="{{ key.email_addr }}" autocomplete="off" style='outline: none;'>
+									<div class="input-group-append">
+										<button class="btn btn-outline-secondary copy-button" type="button" id="button-addon2"><i class="fa fa-clipboard"></i></button>
+									</div>
+								</div>
+
+		                        <!-- <input type="text" class="col-sm" placeholder="Your e-mail" value="{{ key.email_addr }}" autocomplete="off" style='outline: none;'> -->
+		                    </div>
+		                </div>
+		                <div class="col-lg-4 text-muted text-left">
+		                    <div class="row">
+		                        <p class="col-sm-4 my-auto">Username:</p>
+
+		                        <div class="input-group col-sm-8">
+									<input type="password" class="form-control user-name-box" placeholder="(not provided)" aria-label="Your e-mail" aria-describedby="button-addon2" value="{{ key.user_name }}" autocomplete="off" style='outline: none;'>
+									<div class="input-group-append">
+										<button class="btn btn-outline-secondary copy-button" type="button" id="button-addon2"><i class="fa fa-clipboard"></i></button>
+									</div>
+								</div>
+
+		                        <!-- <input type="text" class="col-sm" placeholder="Your username" value="{{ key.user_name }}" autocomplete="off" style='outline: none;'> -->
+		                    </div>
+		                </div>
+		                <div class="col-lg-4 text-muted text-left">
+		                    <div class="row">
+		                        <p class="col-sm-4 my-auto">Password:</p>
+
+		                        <div class="input-group col-sm-8">
+									<input type="password" class="form-control pass-box" placeholder="(not provided)" aria-label="Your e-mail" aria-describedby="button-addon2" value="{{ key.password }}" autocomplete="off" style='outline: none;'>
+									<div class="input-group-append">
+										<button class="btn btn-outline-secondary copy-button" type="button" id="button-addon2"><i class="fa fa-clipboard"></i></button>
+									</div>
+								</div>
+
+		                        <!-- <input type="password" class="col-sm-8" placeholder="Your password" value="{{ key.password }}" autocomplete="off" style='outline: none;'> -->
+		                    </div>
+		                </div>
+		            </div>
+		        </div> <!-- card-body -->
+		        
+		    </div> <!-- card -->
+
+	    {% empty %}
+
+
+			<div class="card my-2">
+		        <div class="card-body text-center">
+		        	<p>Looks like you are new here. Go to home page to generate new secure keys and press save to save your keys here.</p>
+		        	<a class="btn btn-outline-success" href="{% url 'index' %}">Home Page</a>
+		        </div>
+		    </div>
+
+
+		{% endfor %}
+
+	</div>
+
+
+
+
+
+	<!-- This model is custom triggered by javascript. More in key_holder.js -->
+	<!-- Delete button clicked > Trigger this model-->
+	<div class="modal fade" id="affirmDeleteModal" tabindex="-1" aria-labelledby="affirmDeleteModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+
+	      <div class="modal-header"><h5 class="modal-title" id="affirmDeleteModalLabel">Are you Sure??</h5></div>
+
+	      <div class="modal-body">Do you really want to delete the key for <span class="addr-space"></span></div>
+
+	      <div class="modal-footer">
+	      	<button type="button" class="btn btn-danger approve-delete-button">Delete</button>
+	      	<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	      </div>
+
+	    </div>
+	  </div>
+	</div>
+
+
+	<!-- This model is custom triggered by javascript. More in key-holder.js -->
+	<!-- Affirm delete button clicked > Server update successful > Trigger this model-->
+	<div class="modal fade" id="deleteSuccessModal" tabindex="-1" aria-labelledby="deleteSuccessModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+
+	      <div class="modal-header"><h5 class="modal-title" id="deleteSuccessModalLabel">Deletion Successful!</h5></div>
+
+	      <div class="modal-body">Key successfully deleted.</div>
+
+	      <div class="modal-footer">
+	      	<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	      </div>
+
+	    </div>
+	  </div>
+	</div>
+
+
+	<!-- This model is custom triggered by javascript. More in key-holder.js -->
+	<!-- Affirm delete button clicked > Server update successful > Trigger this model-->
+	<div class="modal fade" id="deleteFailedModal" tabindex="-1" aria-labelledby="deleteFailedModalLabel" aria-hidden="true"> <div class="modal-dialog">
+	    <div class="modal-content">
+
+	      <div class="modal-header"><h5 class="modal-title" id="deleteFailedModalLabel">Deletion Failed!</h5></div>
+
+	      <div class="modal-body">Server Error.</div>
+
+	      <div class="modal-footer">
+	      	<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	      </div>
+
+	    </div>
+	  </div>
+	</div>
+
+
+
+	<script type="text/javascript" src="{% static 'lock_book/js/key_holder.js' %}"></script>
+
+{% endblock %}

@@ -1,0 +1,117 @@
+/*------------------
+CSS for index page.
+--------------------*/
+
+/*---------------------------
+#generator-box {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  flex-direction: column;
+  align-items: center;
+  height: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  background-color: #f5f5f5;
+}
+----------------------------*/
+
+/*---------------------------
+#generator-box-lvl-1 {
+  width: 100%;
+}
+----------------------------*/
+
+
+
+.password-box-container {
+  flex-grow: 1!important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #f5f5f5;
+  /*margin: auto;*/
+}
+
+.password-box-wrapper {
+  /*background-color: orange;*/
+  /*max-width: 500px;*/
+  /*margin: auto;*/
+  text-align: center;
+}
+
+.password-box-heading {
+}
+
+
+.password-box {
+  border: solid;
+  border-width: 3px;
+  border-radius: 10px;
+  border-color: #a6a6a6;
+  background-color: #ffffff;
+  padding: 5px;
+
+  max-width: 300px;
+  margin: auto;
+
+/*  box-sizing: border-box;*/
+}
+
+.password-text {
+  margin:auto;
+  /*width: 90%;*/
+  text-align: center;
+}
+
+.copy-icon {
+  float: right;
+  margin-right: 6px;
+  margin-top: -20px;
+  /*position: absolute;*/
+  /*z-index: 2;*/
+}
+
+.copy-icon:hover {
+  color: green;
+}
+
+.copy-icon:focus {
+  color: green;
+  outline: none;
+}
+
+.copy-icon:active {
+  color: green;
+}
+
+
+.button-box {
+  /*padding: 5px;*/
+/*  box-sizing: border-box;*/
+
+  max-width: 300px;
+  margin: auto;
+  /*background-color: #000;*/
+}
+
+.regenerate-button {
+  margin: 10px;
+  margin-top: 20px;
+}
+
+.regenerate-icon {
+  margin-right: 10px;
+}
+
+.save-button {
+  margin: 10px;
+  margin-top: 20px;
+}
+
+.save-icon {
+  margin-right: 10px;
+}

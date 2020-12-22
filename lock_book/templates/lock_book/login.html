@@ -1,0 +1,43 @@
+{% extends "lock_book/layout.html" %}
+{% load static %}
+
+{% block title %}
+  Lock Book - Login
+{% endblock %}
+
+{% block content %}
+
+    <div class="form-container">
+
+        <form class="form-signin" action="{% url 'login' %}" method="post">
+            {% csrf_token %}
+            <div class="text-center mb-4">
+                <img class="mb-4" src="{% static 'lock_book/images/lock_red.jpg' %}" alt="" width="72" height="72">
+                <h1 class="h3 mb-3 font-weight-normal">Log In</h1>
+                <p>Secure your passwords and keep them at a safe place.</p>
+            </div>
+
+            <div class="form-label-group">
+                <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+                <label for="inputEmail">Email address</label>
+            </div>
+
+            <div class="form-label-group">
+                <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                <label for="inputPassword">Password</label>
+            </div>
+
+            <div class="checkbox mb-3 text-center">
+                <label>
+                <input type="checkbox" value="remember-me"> Remember me
+                </label>
+            </div>
+            
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+            <p class="mt-2 mb-2 text-muted text-center">New Here! <a href="{% url 'register' %}">Register</a></p>
+            <!-- <p class="mt-5 mb-3 text-muted text-center">&copy; 2017-2020</p> -->
+        </form>
+
+    </div>
+
+{% endblock %}
