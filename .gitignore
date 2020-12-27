@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# AWS deployment keypairs
+*.pem
+
+# Windows command-prompt shortcuts (for AWS server access etc.)
+*.lnk
